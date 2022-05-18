@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>E como calcular medidas de resumo quando temos um gráfico de barras ou histograma? - CADE</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Gilberto Sassi" /><meta name="description" content="Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em softwares como o R, Python ou até um software de planilha como o excel." /><meta name="keywords" content="RStat, Estatística, Ciência de dados, Datascience" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.98.0 with theme even" />
+
+
+<link rel="canonical" href="/post/2022-05-18-e-como-calcular-medidas-de-resumo-quando-temos-um-gr-fico-de-barras-ou-histograma/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?" />
+<meta property="og:description" content="Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em softwares como o R, Python ou até um software de planilha como o excel." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/2022-05-18-e-como-calcular-medidas-de-resumo-quando-temos-um-gr-fico-de-barras-ou-histograma/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-05-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-05-18T13:29:42-03:00" />
+
+<meta itemprop="name" content="E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?">
+<meta itemprop="description" content="Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em softwares como o R, Python ou até um software de planilha como o excel."><meta itemprop="datePublished" content="2022-05-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-05-18T13:29:42-03:00" />
+<meta itemprop="wordCount" content="2172">
+<meta itemprop="keywords" content="histogram,barChart," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?"/>
+<meta name="twitter:description" content="Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em softwares como o R, Python ou até um software de planilha como o excel."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">CADE: onde a divulgação da Ciência Estatística acontece</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Arquivos</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categorias</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">Sobre</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">CADE: onde a divulgação da Ciência Estatística acontece</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Arquivos</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categorias</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">Sobre</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-05-18 </span>
+        <div class="post-category">
+            <a href="/categories/estat%C3%ADstica-descritiva/"> Estatística descritiva </a>
+            </div>
+        
+      </div>
+    </header>
+
+    
+    <div class="post-content">
+      <p>Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em <em>softwares</em> como o <code>R</code>, <code>Python</code> ou até um <em>software</em> de planilha como o <code>excel</code>. E se você tem apenas o gráfico de barras ou histograma e não tem o conjunto de dados? <em>Don&rsquo;t panic</em>, mesmo nesse caso conseguimos calcular medidas de resumo, e é isso que eu vou explicar como fazer neste post.</p>
+<h2 id="gráfico-de-barras">Gráfico de barras</h2>
+<p>Imagine que você tem um gráfico de barras para uma variável quantitativa discreta $X$ com valores observados $x_1, \dots, x_k$, conforme a figura abaixo.</p>
+<img src="images/barras-geral.png" alt="Gráfico de barras para variável quantitativa discreta." width="50%" title="Gráfico de barras para variável quantitativa discreta."/>
+<p>Cada valor observado $x_i, i=1, \dots, k$ do gráfico acima tem uma barra com altura $n_i,i=1, \dots, k$<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>. Logo, usando esta altura, que é igual a frequência, podemos construir a tabela de distribuição de frequência abaixo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">$X$</th>
+<th style="text-align:center">Frequência</th>
+<th style="text-align:center">Frequência relativa (proporção)</th>
+<th style="text-align:center">Porcentagem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$x_1$</td>
+<td style="text-align:center">$n_1$</td>
+<td style="text-align:center">$f_1 = \frac{n_1}{n}$</td>
+<td style="text-align:center">$100\cdot f_1\%$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_2$</td>
+<td style="text-align:center">$n_1$</td>
+<td style="text-align:center">$f_2 = \frac{n_2}{n}$</td>
+<td style="text-align:center">$100\cdot f_2\%$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_3$</td>
+<td style="text-align:center">$n_3$</td>
+<td style="text-align:center">$f_3 = \frac{n_3}{n}$</td>
+<td style="text-align:center">$100\cdot f_3\%$</td>
+</tr>
+<tr>
+<td style="text-align:left">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots%$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_k$</td>
+<td style="text-align:center">$n_k$</td>
+<td style="text-align:center">$f_k = \frac{n_k}{n}$</td>
+<td style="text-align:center">$100\cdot f_k\%$</td>
+</tr>
+<tr>
+<td style="text-align:left">Total</td>
+<td style="text-align:center">$n = n_1+\cdots+n_k$</td>
+<td style="text-align:center">$1 \approx f_1 + \cdots + f_k$</td>
+<td style="text-align:center">$100\% \approx 100\cdot f_1 + \cdots + 100 \cdot f_k$</td>
+</tr>
+</tbody>
+</table>
+<p>Para calcular as medidas de resumo, note que o valor $x_i$ aparece $n_i$ vezes para $i=1, \dots, k$. Aqui vamos calcular a média, desvio padrão e a mediana. Para calcular a média, somamos todos os valores e dividimos pelo tamanho da amostra, e para calcular o desvio padrão somamos todos os desvios ao quadrado<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> e dividimos pelo tamanho da amostra subtraído por um e em seguida tiramos a raiz quadrada deste valor.  Então podemos usar a frequência da tabela de distribuição de frequência como descrito na equação abaixo para calcular a média e o desvio padrão.
+$$
+\begin{split}
+\bar{x} &amp;= \frac{\overbrace{x_1+ \cdots + x_1}^{n_1\mbox{ vezes}} + \cdots + \overbrace{x_k+ \cdots + x_k}^{n_k\mbox{ vezes}}}{n}\newline
+&amp;= \frac{n_1 \cdot x_1 + \cdots + n_k \cdot x_k}{n}\newline
+dp(x) &amp;= \sqrt{Var(x)}\newline
+&amp;= \sqrt{\frac{\overbrace{(x_1 - \bar{x})^2+ \cdots + (x_1 - \bar{x})^2}^{n_1\mbox{ vezes}} + \cdots + \overbrace{(x_k - \bar{x})^2+ \cdots + (x_k - \bar{x})^2}^{n_k\mbox{ vezes}}}{n-1}}\newline
+&amp;= \sqrt{\frac{n_1\cdot(x_1 - \bar{x})^2 + \cdots + n_k \cdot (x_k - \bar{x})^2}{n-1}}
+\end{split}
+$$</p>
+<p>Para calcular a mediana, precisamos calcular as estatísticas de ordem $x_{(i)}$, em que $x_{(i)}$ é o $i$-ésimo menor número. Imagine que $x_1$ é o menor número da amostra, então os $n_1$ menores valores são todos iguais a $x_1$: $x_{(1)} = x_{(2)} = \cdots = x_{(n_1)} = x_1$. Suponha que $x_2$ é o segundo menor valor da amostra, então os $n_2$ menores valores (depois de $x_1$) são todos iguais a $x_2$: $x_{(n_1+1)} = x_{(n_1+2)} = \cdots = x_{(n_1+n_2)} = x_2$. Imagine agora que $x_3$ é o terceiro menor valor da amostra, então os menores valores (depois de $x_1$ e $x_2$) são todos iguais a $x_3$: $x_{(n_1+n_2+1)} = x_{(n_1+n_2+2)} = \cdots = x_{(n_1+n_2+n_3)} = x_3$. E continuamos neste processo até organizar todos os valores observados da amostra do menor até o maior valor como indicado na tabela abaixo. Note que estamos usando a frequência $n_1$, $n_2$ até $n_k$ da tabela distribuição de frequências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Estatística de ordem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$x_{(1)} = x_{(2)} = \cdots = x_{(n_1)} = x_1$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(n_1+1)} = x_{(n_1+2)} = \cdots = x_{(n_1+n_2)} = x_2$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(n_1+n_2+1)} = x_{(n_1+n_2+2)} = \cdots = x_{(n_1+n_2 + n_3)} = x_3$</td>
+</tr>
+<tr>
+<td style="text-align:left">$\vdots$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+1)} = x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+2)} = \cdots = x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+ n_k)} = x_k$</td>
+</tr>
+</tbody>
+</table>
+<p>Então a mediana é calculada do jeito tradicional usando a equação abaixo.
+$$
+md(x) = \frac{x_{\left(\lceil(n+1)\cdot 0.5\rceil \right)} + x_{\left(\lfloor(n+1)\cdot 0.5\rfloor \right)}}{2}
+$$</p>
+<p>em que $\lfloor \cdot \rfloor$ é a função <em>arredonda para baixo</em> e $\lceil \cdot \rceil$ é a função <em>arredonda para cima</em>. Por exemplo, $\lfloor 1,2 \rfloor = 1$, $\lfloor 1,76 \rfloor = 1$, $\lceil 1,2 \rceil = 2$ e $\lceil 1,76 \rceil =2$.</p>
+<h3 id="exemplo">Exemplo</h3>
+<p>Considere o gráfico de barras da variável <code>Número de filhos</code> de um conjunto de $36$ funcionário da <code>Companhia MB</code> representado na figura abaixo.</p>
+<img src="images/grafico-barras-numero-filhos.png" alt="Gráfico de barras para variável quantitativa discreta Número de filhos." width="50%"/>
+<p>Note que a barra que corresponde a <code>zero filhos</code> tem altura $20$ e frequência $20$, a barra que corresponde a <code>um filho</code> tem altura $5$ e frequência $5$, a barra que corresponde a <code>dois filhos</code> tem altura $7$ e frequência $7$, a barra que corresponde a <code>três filhos</code> tem altura $3$ e frequência $3$, a barra que corresponde a <code>quatro filhos</code> tem altura $0$ e frequência $0$ e a barra que corresponde a <code>cinco filhos</code> tem altura $1$ e frequência $1$. Consequentemente, temos a seguinte tabela de distribuição de frequências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Número de filhos</th>
+<th style="text-align:center">Frequência</th>
+<th style="text-align:center">Frequência relativa (proporção)</th>
+<th style="text-align:center">Porcentagem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$0$</td>
+<td style="text-align:center">$20$</td>
+<td style="text-align:center">$\frac{20}{36} = 0,5556$</td>
+<td style="text-align:center">$0,5556 \cdot 100 = 55,56\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$5$</td>
+<td style="text-align:center">$\frac{5}{36} = 0,1389$</td>
+<td style="text-align:center">$0,1389 \cdot 100 = 13,89\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$2$</td>
+<td style="text-align:center">$7$</td>
+<td style="text-align:center">$\frac{7}{36}=0,1944$</td>
+<td style="text-align:center">$0,1944 \cdot 100 = 19,44\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$3$</td>
+<td style="text-align:center">$3$</td>
+<td style="text-align:center">$\frac{3}{36}=0,0833$</td>
+<td style="text-align:center">$0,0833 \cdot 100 = 8,33\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$4$</td>
+<td style="text-align:center">$0$</td>
+<td style="text-align:center">$\frac{0}{36} =0$</td>
+<td style="text-align:center">$0 \cdot 100 = 0\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$5$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$\frac{1}{36} = 0,0278$</td>
+<td style="text-align:center">$0,0278 \cdot 100 = 2,78\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">Total</td>
+<td style="text-align:center">$36$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$100$</td>
+</tr>
+</tbody>
+</table>
+<p>$$
+\begin{split}
+\bar{x} &amp;= \frac{20 \cdot 0 + 5 \cdot 1 + 7 \cdot 2 + 3 \cdot 3 + 0 \cdot 4 + 1 \cdot 5}{36} = 0,92.\newline
+dp(x) &amp;= \sqrt{\frac{20 \cdot (0 - 0,92)^2 + 5 \cdot (1 - 0,92)^2 + 7 \cdot (2 - 0,92)^2 + 3 \cdot (3 - 0,92)^2 + 0 \cdot (4 - 0,92)^2 + 1 \cdot (5 - 0,92)^2}{35}}\newline
+&amp;= 1,25.
+\end{split}
+$$</p>
+<p>Para calcular a mediana, primeiro precisamos encontrar as estatísticas de ordem.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Estatísticas de ordem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$x_{(1)}=x_{(2)}=\cdots=x_{(20)}=0$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(21)}=x_{(22)}=x_{(23)}=x_{(24)}=x_{(25)}=1$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(26)}=x_{(27)}=x_{(28)}=x_{(29)}=x_{(30)}=x_{(31)}=x_{(32)}=2$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(33)}=x_{(34)}=x_{(35)}=3$</td>
+</tr>
+<tr>
+<td style="text-align:left">$x_{(36)} = 5$</td>
+</tr>
+</tbody>
+</table>
+<p>Então a mediana é dada por</p>
+<p>$$
+\begin{split}
+md(x) &amp;= \frac{x_{\left(\lfloor \frac{n+1}{2}  \rfloor\right)} + x_{\left(\lceil \frac{n+1}{2}  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(\lfloor \frac{36+1}{2}  \rfloor\right)} + x_{\left(\lceil \frac{36+1}{2}  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(\lfloor 18,5  \rfloor\right)} + x_{\left(\lceil 18,5  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(18\right)} + x_{\left(19\right)}}{2}=0\newline
+\end{split}
+$$</p>
+<h2 id="histograma">Histograma</h2>
+<p>O histograma é um gráfico construído usando barras sem espaçamento entre elas, e cada barra tem a largura da base igual a largura do intervalo intervalo usado na contagem da variável quantitativa contínua e a área da barra é igual a frequência relativa<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>. Note que a área da figura geométrica do histograma sempre é um, e a altura de cada barra é a divisão da frequência relativa pela largura do intervalo conforme ilustrado na figura abaixo. Chamamos essa divisão de <em>Densidade de frequência</em>.</p>
+<img src="images/histograma-continua.png" alt="Histograma de uma variável quantitativa contínua." width="50%"/>
+<p>Para encontrarmos a frequência relativa de cada intervalo, e consequentemente a porcentagem, precisamos multiplicar a <em>densidade de frequência</em> (altura da barra) pela largura do intervalo, conforme tabela abaixo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">X</th>
+<th style="text-align:center">Densidade de frequência (altura da barra)</th>
+<th style="text-align:center">Frequência relativa</th>
+<th style="text-align:center">Porcentagem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$[a_0, a_1)$</td>
+<td style="text-align:center">$df_1$</td>
+<td style="text-align:center">f_1 = $df_1 \cdot (a_1 - a_0)$</td>
+<td style="text-align:center">$f_1 \cdot 100\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_1, a_2)$</td>
+<td style="text-align:center">$df_2$</td>
+<td style="text-align:center">f_2 = $df_2 \cdot (a_2 - a_1)$</td>
+<td style="text-align:center">$f_2 \cdot 100\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_3, a_2)$</td>
+<td style="text-align:center">$df_3$</td>
+<td style="text-align:center">f_3 = $df_3 \cdot (a_3 - a_2)$</td>
+<td style="text-align:center">$f_3 \cdot 100\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_k, a_{k-1})$</td>
+<td style="text-align:center">$df_k$</td>
+<td style="text-align:center">f_k = $df_k \cdot (a_k - a_{k-1})$</td>
+<td style="text-align:center">$f_k \cdot 100\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">Total</td>
+<td style="text-align:center">$&ndash;$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$100\%$</td>
+</tr>
+</tbody>
+</table>
+<p>Se soubermos o tamanho da amostra, conseguimos calcular a frequência (absoluta): basta multiplicar a frequência relativa pelo tamanho da amostra. Imagine que o tamanho da amostra é $n$, então a tabela de distribuição de frequências é dada pela tabela abaixo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">X</th>
+<th style="text-align:center">Densidade de frequência (altura da barra)</th>
+<th style="text-align:center">Frequência relativa</th>
+<th style="text-align:center">Porcentagem</th>
+<th style="text-align:center">Frequência</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$[a_0, a_1)$</td>
+<td style="text-align:center">$df_1$</td>
+<td style="text-align:center">f_1 = $df_1 \cdot (a_1 - a_0)$</td>
+<td style="text-align:center">$f_1 \cdot 100\%$</td>
+<td style="text-align:center">$f_1 \cdot n$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_1, a_2)$</td>
+<td style="text-align:center">$df_2$</td>
+<td style="text-align:center">f_2 = $df_2 \cdot (a_2 - a_1)$</td>
+<td style="text-align:center">$f_2 \cdot 100\%$</td>
+<td style="text-align:center">$f_2 \cdot n$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_3, a_2)$</td>
+<td style="text-align:center">$df_3$</td>
+<td style="text-align:center">f_3 = $df_3 \cdot (a_3 - a_2)$</td>
+<td style="text-align:center">$f_3 \cdot 100\%$</td>
+<td style="text-align:center">$f_3 \cdot n$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_k, a_{k-1})$</td>
+<td style="text-align:center">$df_k$</td>
+<td style="text-align:center">f_k = $df_k \cdot (a_k - a_{k-1})$</td>
+<td style="text-align:center">$f_k \cdot 100\%$</td>
+<td style="text-align:center">$f_k \cdot n$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">Total</td>
+<td style="text-align:center">$&ndash;$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$100\%$</td>
+<td style="text-align:center">$n$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Agora, queremos calcular a média e o desvio padrão. Mas na tabela de distribuição de frequências acima, sabemos apenas que $n_i$ valores da variável quantitativa contínua $X$ está entre $a_{i-1}$ e $a_i$, para $i=1, \dots, k$, mas não sabemos quais são esses valores e sem esses valores não conseguimos calcular a média e o desvio padrão. Existe vários algoritmos para contornar essa restrição e você pode consultar, por exemplo, o livro com título <a href="https://gilbertosassi.netlify.app/ensino/2022/02/primeiro-semestre-de-2022/estatistica-basica-bussab-morettin.pdf"><strong>Estatística Básica</strong></a> de Bussab e <a href="https://www.ime.usp.br/~pam/">Morettin</a>. Aqui neste post, vamos usar uma abordagem bem simples, rápida e um pouco grosseira: vamos assumir que todos  os $n_i$ valores do intervalo de valores $[a_{i-1}, a_i)$ são aproximadamente iguais a $\frac{a_{i-1} + a_i}{2}$. Vou chamar esse valor $\frac{a_{i-1} + a_i}{2}$ de ponto médio. E temos a seguinte tabela de distribuição de frequências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">X</th>
+<th style="text-align:center">Densidade de frequência (altura da barra)</th>
+<th style="text-align:center">Frequência relativa</th>
+<th style="text-align:center">Porcentagem</th>
+<th style="text-align:center">Frequência</th>
+<th style="text-align:center">Ponto médio</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$[a_0, a_1)$</td>
+<td style="text-align:center">$df_1$</td>
+<td style="text-align:center">f_1 = $df_1 \cdot (a_1 - a_0)$</td>
+<td style="text-align:center">$f_1 \cdot 100\%$</td>
+<td style="text-align:center">$f_1 \cdot n$</td>
+<td style="text-align:center">$p_1 = \frac{a_0 + a_1}{2}$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_1, a_2)$</td>
+<td style="text-align:center">$df_2$</td>
+<td style="text-align:center">f_2 = $df_2 \cdot (a_2 - a_1)$</td>
+<td style="text-align:center">$f_2 \cdot 100\%$</td>
+<td style="text-align:center">$f_2 \cdot n$</td>
+<td style="text-align:center">$p_2 = \frac{a_2 + a_1}{2}$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_3, a_2)$</td>
+<td style="text-align:center">$df_3$</td>
+<td style="text-align:center">f_3 = $df_3 \cdot (a_3 - a_2)$</td>
+<td style="text-align:center">$f_3 \cdot 100\%$</td>
+<td style="text-align:center">$f_3 \cdot n$</td>
+<td style="text-align:center">$p_3 = \frac{a_3 + a_2}{2}$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td style="text-align:center">$\vdots$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">$[a_k, a_{k-1})$</td>
+<td style="text-align:center">$df_k$</td>
+<td style="text-align:center">f_k = $df_k \cdot (a_k - a_{k-1})$</td>
+<td style="text-align:center">$f_k \cdot 100\%$</td>
+<td style="text-align:center">$f_k \cdot n$</td>
+<td style="text-align:center">$p_k = \frac{a_k + a_{k-1}}{2}$</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">Total</td>
+<td style="text-align:center">$&ndash;$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$100\%$</td>
+<td style="text-align:center">$n$</td>
+<td style="text-align:center">$&ndash;$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Com a tabela de distribuição de frequências, podemos usar o ponto médio para calcular a média e o desvio padrão de forma análoga ao caso da variável quantitativa discreta. Mais precisamente,</p>
+<p>$$
+\begin{split}
+\bar{x} &amp;= \frac{p_1 \cdot n_1 + p_2 \cdot n_2 + \cdots + p_k \cdot n_k}{n}\newline
+dp(x) &amp;= \sqrt{Var(x)}\newline
+&amp;= \sqrt{\frac{n_1(\bar{x} - p_1) + n_2(\bar{x} - p_2) + \cdots + n_k(\bar{x} - p_k)}{n-1}}\newline
+\end{split}
+$$</p>
+<p>Para calcular a mediana, precisamos calcular as estatísticas de ordem $p_{(i)}$, em que $p_{(i)}$ é o $i$-ésimo menor número. Imagine que $p_1$ é o menor número entre os pontos médios, então os $n_1$  menores pontos médios são todos iguais a $p_1$: $p_{(1)} = p_{(2)} = \cdots = p_{(n_1)} = p_1$. Suponha que $p_2$ é o segundo menor valor da amostra, então os $n_2$ menores valores (depois de $p_1$) são todos iguais a $p_2$: $p_{(n_1+1)} = p_{(n_1+2)} = \cdots = p_{(n_1+n_2)} = p_2$. Imagine agora que $p_3$ é o terceiro menor valor da amostra, então os menores valores (depois de $p_1$ e $p_2$) são todos iguais a $p_3$: $p_{(n_1+n_2+1)} = p_{(n_1+n_2+2)} = \cdots = p_{(n_1+n_2+n_3)} = p_3$. E continuamos neste processo até organizar todos os valores observados da amostra do menor até o maior valor como indicado na tabela abaixo. Note que estamos usando a frequência $n_1$, $n_2$ até $n_k$ da tabela distribuição de frequências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Estatística de ordem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$p_{(1)} = p_{(2)} = \cdots = p_{(n_1)} = p_1$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(n_1+1)} = p_{(n_1+2)} = \cdots = p_{(n_1+n_2)} = p_2$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(n_1+n_2+1)} = p_{(n_1+n_2+2)} = \cdots = p_{(n_1+n_2 + n_3)} = p_3$</td>
+</tr>
+<tr>
+<td style="text-align:left">$\vdots$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+1)} = p_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+2)} = \cdots = p_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+ n_k)} = p_k$</td>
+</tr>
+</tbody>
+</table>
+<p>Então a mediana é calculada do jeito tradicional usando a equação abaixo.
+$$
+md(x) = \frac{p_{\left(\lceil(n+1)\cdot 0.5\rceil \right)} + p_{\left(\lfloor(n+1)\cdot 0.5\rfloor \right)}}{2}.
+$$</p>
+<h3 id="exemplo-1">Exemplo</h3>
+<p>Considere o histograma da variável quantitativa contínua $X$ de 36 funcionário da <a href="https://gilbertosassi.netlify.app/ensino/2022/02/primeiro-semestre-de-2022/companhia-mb.xlsx">companhia MB</a> da figura abaixo.</p>
+<img src="images/histograma-funcionarios.png" alt="Histograma para a variável salário." width="50%"/>
+<p>Então, temos a seguinte tabela de distribuição de frequências.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Salário</th>
+<th style="text-align:center">Densidade de frequência</th>
+<th style="text-align:center">Frequência relativa</th>
+<th style="text-align:center">Porcentagem</th>
+<th style="text-align:center">frequência</th>
+<th style="text-align:center">Ponto médio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$[4, 8)$</td>
+<td style="text-align:center">$0,0694$</td>
+<td style="text-align:center">$0,0694 \cdot 4 = 0,2776$</td>
+<td style="text-align:center">$27,76\%$</td>
+<td style="text-align:center">$0,2776 \cdot 36 \approx 10 $</td>
+<td style="text-align:center">$\frac{4 + 8}{2} = 6$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[8, 12)$</td>
+<td style="text-align:center">$0,0833$</td>
+<td style="text-align:center">$0,0833 \cdot 4 = 0,332$</td>
+<td style="text-align:center">$33,32\%$</td>
+<td style="text-align:center">$0,3332 \cdot 36 \approx 12$</td>
+<td style="text-align:center">$\frac{8 + 12}{2} = 10$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[12, 16)$</td>
+<td style="text-align:center">$0,0556$</td>
+<td style="text-align:center">$0,0556 \cdot 4 = 0,2224$</td>
+<td style="text-align:center">$22,24\%$</td>
+<td style="text-align:center">$0,2224 \cdot 36 \approx 8$</td>
+<td style="text-align:center">$\frac{12 + 16}{2} = 14$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[16, 20)$</td>
+<td style="text-align:center">$0,0347$</td>
+<td style="text-align:center">$0,0347 \cdot 4 = 0,1388$</td>
+<td style="text-align:center">$13,88\%$</td>
+<td style="text-align:center">$0,1388 \cdot 36 \approx 5$</td>
+<td style="text-align:center">$\frac{16 + 20}{2} = 18$</td>
+</tr>
+<tr>
+<td style="text-align:center">$[20, 24)$</td>
+<td style="text-align:center">$0,0069$</td>
+<td style="text-align:center">$0,0069 \cdot 4 = 0,0276$</td>
+<td style="text-align:center">$2,76\%$</td>
+<td style="text-align:center">$0,0276 \cdot 36 \approx 1$</td>
+<td style="text-align:center">$\frac{20 + 24}{2} = 22$</td>
+</tr>
+<tr>
+<td style="text-align:center">Total</td>
+<td style="text-align:center">$&ndash;$</td>
+<td style="text-align:center">$1$</td>
+<td style="text-align:center">$100\%$</td>
+<td style="text-align:center">$&ndash;$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A média e o desvio padrão são dados por</p>
+<p>$$
+\begin{split}
+\bar{x} &amp;= \frac{10 \cdot 6 + 12 \cdot 10 + 8 \cdot 14 + 5 \cdot 18 + 1 \cdot 1}{36}\newline
+&amp;= 11,22\newline
+dp(x) &amp;= \sqrt{\frac{10 \cdot (6 - 11,22)^2 + 12 \cdot (10 - 11,22)^2 + 8 \cdot (14 - 11,22)^2 + 5 \cdot (18 - 11,22)^2 + 1 \cdot (22 - 11,22)^2}{35}}\newline
+&amp;= 4,47.
+\end{split}
+$$</p>
+<p>Usando a tabela de distribuição de frequências acima, podemos encontrar as estatísticas de ordem.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Estatísticas de ordem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">$p_{(1)}=\cdots=p_{(10)}=6$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(11)}=\cdots=p_{(22)}=10$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(23)}=\cdots=p_{(30)}=14$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(31)}=p_{(32)}=p_{(33)}=p_{(34)}=p_{(35)}=18$</td>
+</tr>
+<tr>
+<td style="text-align:left">$p_{(36)}=22$</td>
+</tr>
+</tbody>
+</table>
+<p>Então a mediana é dada por</p>
+<p>$$
+\begin{split}
+md(x) &amp;= \frac{x_{\left(\lfloor \frac{n+1}{2}  \rfloor\right)} + x_{\left(\lceil \frac{n+1}{2}  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(\lfloor \frac{36+1}{2}  \rfloor\right)} + x_{\left(\lceil \frac{36+1}{2}  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(\lfloor 18,5  \rfloor\right)} + x_{\left(\lceil 18,5  \rceil\right)}}{2}\newline
+&amp;= \frac{x_{\left(18\right)} + x_{\left(19\right)}}{2}= \frac{10 + 10}{2} = 10.
+\end{split}
+$$</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>O gráfico de barras pode ser construído usando frequência relativa (proporção) ou porcentagem. Fique atento ao rótulo do eixo $y$ do gráfico.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Os desvios ao quadrado são dados por $(x_i - \bar{x})^2$ em que $x_i$ é um valor observado da amostra e $\bar{x}$ é a média.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>O histograma também pode ser construído usando frequência (absoluta) ou porcentagem. Mas geralmente, usamos frequência relativa.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+    </div>
+
+    
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/histogram/">histogram</a>
+          <a href="/tags/barchart/">barChart</a>
+          </div>
+      <nav class="post-nav">
+        
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:gilberto.sassi@ufba.br" class="iconfont icon-email" title="email"></a>
+  <a href="/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>CADE</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        tags: 'ams',
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

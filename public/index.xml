@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CADE</title>
+    <link>/</link>
+    <description>Recent content on CADE</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt</language>
+    <lastBuildDate>Wed, 18 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sobre</title>
+      <link>/about/</link>
+      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
+      
+      <guid>/about/</guid>
+      <description>O projeto CADE é uma ação de extensão do Departamento de Estatística do Instituto de Matemática da Universidade Federal da Bahia. Esta ação de extensão propõe construir um repositório on-line denominado Canal de Divulgação de Estatística, ou abreviadamente CADE, onde textos sobre estatística de leitura simples e acessível serão disponibilizados.
+Equipe técnica Carolina Costa Mota Paraíba fez doutorado sanduíche na Universidade de Edimburgo (Escócia) e pós-doutorado na Universidade Federal do Espírito Santo.</description>
+    </item>
+    
+    <item>
+      <title>E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?</title>
+      <link>/post/2022-05-18-e-como-calcular-medidas-de-resumo-quando-temos-um-gr-fico-de-barras-ou-histograma/</link>
+      <pubDate>Wed, 18 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022-05-18-e-como-calcular-medidas-de-resumo-quando-temos-um-gr-fico-de-barras-ou-histograma/</guid>
+      <description>Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em softwares como o R, Python ou até um software de planilha como o excel.</description>
+    </item>
+    
+  </channel>
+</rss>

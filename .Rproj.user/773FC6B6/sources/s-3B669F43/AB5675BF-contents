@@ -1,0 +1,117 @@
+---
+title: E como calcular medidas de resumo quando temos um gráfico de barras ou histograma?
+author: Gilberto Sassi
+date: '2022-05-18'
+slug: []
+categories:
+  - histograma
+  - estatística descritiva
+  - gráfico de barras
+tags:
+  - histogram
+  - barChart
+lastmod: '2022-05-18T13:00:01-03:00'
+keywords: []
+description: ''
+comment: no
+toc: no
+autoCollapseToc: no
+postMetaInFooter: no
+hiddenFromHomePage: no
+contentCopyright: no
+reward: no
+mathjax: yes
+mathjaxEnableSingleDollar: yes
+mathjaxEnableAutoNumber: yes
+hideHeaderAndFooter: no
+flowchartDiagrams:
+  enable: no
+  options: ''
+sequenceDiagrams:
+  enable: no
+  options: ''
+---
+
+Com um gráfico de barras e um histograma, você tem uma ideia da distribuição dos dados. Mas e se você deseja encontrar um ou alguns números que representam ou resumem fidedignamente os valores representados nestes gráficos? Para encontrar estes números podemos usar medidas de resumo, e se você tem o conjunto de dados que foi usado para construir estes gráficos essa tarefa é simples em *softwares* como o `R`, `Python` ou até um *software* de planilha como o `excel`. E se você tem apenas o gráfico de barras ou histograma e não tem o conjunto de dados? *Don't panic*, mesmo nesse caso conseguimos calcular medidas de resumo, e é isso que eu vou explicar como fazer neste post.
+
+## Gráfico de barras
+
+Imagine que você tem um gráfico de barras para uma variável quantitativa discreta $X$ com valores observados $x_1, \dots, x_k$, conforme a figura abaixo.
+
+![Gráfico de barras para variável quantitativa discreta.](images/barras-geral.png){width=50%}
+
+Cada valor observado $x_i, i=1, \dots, k$ do gráfico acima tem uma barra com altura $n_i,i=1, \dots, k$[^1]. Logo, usando esta altura, que é igual a frequência, podemos construir a tabela de distribuição de frequência abaixo.
+
+<table>
+    <tr>
+        <td>$X$</td>
+        <td>Frequência</td>
+        <td>Frequência relativa (proporção)</td>
+        <td>Porcentagem</td>
+    </tr>
+    <tr>
+        <td>$x_1$</td>
+        <td>$n_1$</td>
+        <td>$f_1 = \frac{n_1}{n}$</td>
+        <td>$100 \cdot f_1$</td>
+    </tr>
+    <tr>
+        <td>$x_2$</td>
+        <td>$n_2$</td>
+        <td>$f_2$</td>
+        <td>$100\cdot f_2$</td>
+    </tr>
+    <tr>
+        <td>$x_3$</td>
+        <td>$n_3$</td>
+        <td>$f_3$</td>
+        <td>$100\cdot f_3$</td>
+    </tr>
+    <tr>
+        <td>$\vdots$</td>
+        <td>$\vdots$</td>
+        <td>$\vdots$</td>
+        <td>$\vdots$</td>
+    </tr>
+    <tr>
+        <td>$x_k$</td>
+        <td>$n_k$</td>
+        <td>$f_k$</td>
+        <td>$100\cdot f_k$</td>
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td>$n$</td>
+        <td>$f$</td>
+        <td>100\%</td>
+    </tr>
+</table>
+
+Para calcular as medidas de resumo, note que o valor $x_i$ aparece $n_i$ vezes para $i=1, \dots, k$. Aqui vamos calcular a média, desvio padrão e a mediana. Para calcular a média, somamos todos os valores e dividimos pelo tamanho da amostra, e para calcular o desvio padrão somamos todos os desvios ao quadrado[^3] e dividimos pelo tamanho da amostra subtraído por um e em seguida tiramos a raiz quadrada deste valor.  Então podemos usar a frequência da tabela de distribuição de frequência como descrito na equação abaixo para calcular a média e o desvio padrão.
+$$
+\begin{split}
+\bar{x} &= \frac{\overbrace{x_1+ \cdots + x_1}^{n_1\mbox{ vezes}} + \cdots + \overbrace{x_k+ \cdots + x_k}^{n_k\mbox{ vezes}}}{n}\newline
+&= \frac{n_1 \cdot x_1 + \cdots + n_k \cdot x_k}{n}\newline
+dp(x) &= \sqrt{Var(x)}\newline
+ &= \sqrt{\frac{\overbrace{(x_1 - \bar{x})^2+ \cdots + (x_1 - \bar{x})^2}^{n_1\mbox{ vezes}} + \cdots + \overbrace{(x_k - \bar{x})^2+ \cdots + (x_k - \bar{x})^2}^{n_k\mbox{ vezes}}}{n-1}}\newline
+&= \sqrt{\frac{n_1\cdot(x_1 - \bar{x})^2 + \cdots + n_k \cdot (x_k - \bar{x})^2}{n-1}}
+\end{split}
+$$
+
+Para calcular a mediana, precisamos calcular as estatísticas de ordem $x_{(i)}$, em que $x_{(i)}$ é o $i$-ésimo menor número. Imagine que $x_1$ é o menor número da amostra, então os $n_1$ menores valores são todos iguais a $x_1$: $x_{(1)} = x_{(2)} = \cdots = x_{(n_1)} = x_1$. Suponha que $x_2$ é o segundo menor valor da amostra, então os $n_2$ menores valores (depois de $x_1$) são todos iguais a $x_2$: $x_{(n_1+1)} = x_{(n_1+2)} = \cdots = x_{(n_1+n_2)} = x_2$. Imagine agora que $x_3$ é o terceiro menor valor da amostra, então os menores valores (depois de $x_1$ e $x_2$) são todos iguais a $x_3$: $x_{(n_1+n_2+1)} = x_{(n_1+n_2+2)} = \cdots = x_{(n_1+n_2+n_3)} = x_3$. E continuamos neste processo até organizar todos os valores observados da amostra do menor até o maior valor como indicado na tabela abaixo. Note que estamos usando a frequência $n_1$, $n_2$ até $n_k$ da tabela distribuição de frequências.
+
+| Estatística de ordem                                                                                                                            |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| $x_{(1)} = x_{(2)} = \cdots = x_{(n_1)} = x_1$                                                                                                  |
+| $x_{(n_1+1)} = x_{(n_1+2)} = \cdots = x_{(n_1+n_2)} = x_2$                                                                                      |
+| $x_{(n_1+n_2+1)} = x_{(n_1+n_2+2)} = \cdots = x_{(n_1+n_2 + n_3)} = x_3$                                                                        |
+| $\\vdots$                                                                                                                                       |
+| $x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+1)} = x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+2)} = \cdots = x_{(n_1+n_2 + n_3+ \cdots + n_{k-1}+ n_k)} = x_k$ |
+
+Então a mediana é calculada do jeito tradicional usando a equação abaixo.
+$$
+md(x) = \frac{x_{\left(\lceil(n+1)\cdot 0.5\rceil \right)} + x_{\left(\lfloor(n+1)\cdot 0.5\rfloor \right)}}{2}
+$$
+
+em que $\lfloor \cdot \rfloor$ é a função *arredonda para baixo* e $\lceil \cdot \rceil$ é a função *arredonda para cima*. Por exemplo, $\lfloor 1,2 \rfloor = 1$, $\lfloor 1,76 \rfloor = 1$, $\lceil 1,2 \rceil = 2$ e $\lceil 1,76 \rceil =2$.
+

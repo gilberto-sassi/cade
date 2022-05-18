@@ -1,0 +1,48 @@
+---
+title: um título qualquer
+author: Gilberto
+date: '2022-05-12'
+slug: titulo-qualuqer
+categories: []
+tags: []
+lastmod: '2022-05-12T13:26:42-03:00'
+keywords: []
+description: ''
+comment: no
+toc: no
+autoCollapseToc: no
+postMetaInFooter: no
+hiddenFromHomePage: no
+contentCopyright: no
+reward: no
+mathjax: yes
+mathjaxEnableSingleDollar: yes
+mathjaxEnableAutoNumber: yes
+hideHeaderAndFooter: no
+flowchartDiagrams:
+  enable: no
+  options: ''
+sequenceDiagrams:
+  enable: no
+  options: ''
+editor_options: 
+  chunk_output_type: console
+---
+
+# Título
+
+```r
+ggplot(dados) +
+  geom_line(aes(x, y))
+```
+
+## Subtítulo
+
+```{r, message=FALSE}
+library(tidyverse)
+df <- tibble(x = rnorm(1000))
+ggplot(df) +
+  geom_histogram(aes(x = x, y = ..density..))
+```
+
+$x_1$
