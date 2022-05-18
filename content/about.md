@@ -6,6 +6,8 @@ title: Sobre
 weight: 50
 ---
 
+# CADE: onde a divulgação da Ciência Estatística acontece
+
 O projeto _CADE_ é uma ação de extensão do [**Departamento de Estatística**](https://est.ufba.br) do [**Instituto de Matemática**](http://ime.ufba.br) da [**Universidade Federal da Bahia**](https://www.ufba.br/). Esta ação de extensão propõe construir um repositório on-line denominado Canal de Divulgação de Estatística, ou abreviadamente CADE, onde textos sobre estatística de leitura simples e acessível serão disponibilizados. 
 
 ## Equipe técnica
